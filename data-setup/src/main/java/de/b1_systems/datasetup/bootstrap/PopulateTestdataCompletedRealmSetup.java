@@ -1,4 +1,4 @@
-package hamburg.schwartau.datasetup.bootstrap;
+package de.b1_systems.datasetup.bootstrap;
 
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.representations.idm.RealmRepresentation;

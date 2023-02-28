@@ -1,3 +1,11 @@
+# forked from https://github.com/mschwartau/keycloak-custom-protocol-mapper-example
+
+A keycloak OIDC protocol mapper that returns an email address whose domain part is replaced with a custom domain.
+
+You can e.g. use it to overwrite the `email` claim from `example.de` to `example.com`.
+
+To use it, install it to your keycloak image (see `Dockerfile`) and add a new `Custom Email Domain Mapper` to your keycloak client.
+
 # Keycloak custom protocol mapper example / customize JWT tokens
 
 Per default [Keycloak](https://www.keycloak.org/) writes a lot of things into the [JWT tokens](https://tools.ietf.org/html/rfc7519),
@@ -10,12 +18,12 @@ official [service provider API](https://www.baeldung.com/java-spi). This project
 ## Entrypoints into this project
 
 1. [data-setup](data-setup): Project to configure [Keycloak](https://www.keycloak.org/) via its REST API. Configures a realm so that it uses the example
-   protocol mapper. Contains a [main method](data-setup/src/main/java/hamburg/schwartau/datasetup/bootstrap/DataSetupMain.java) which can be executed against a
+   protocol mapper. Contains a [main method](data-setup/src/main/java/de/b1_systems/datasetup/bootstrap/DataSetupMain.java) which can be executed against a
    running [Keycloak](https://www.keycloak.org/) instance. Doesn't need to be executed manually because it's executed automatically by
    the `docker-entrypoint.sh` during startup.
 2. [protocol-mapper](protocol-mapper): Contains the protocol mapper code. The resulting jar file will be deployed to [Keycloak](https://www.keycloak.org/). I
    tried to explain things needed in comments in the [protocol-mapper project](protocol-mapper)
-3. [Dockerfile](Dockerfile): Adds the jar file containing the [protocol mapper](protocol-mapper/src/main/java/hamburg/schwartau/HelloWorldMapper.java), created
+3. [Dockerfile](Dockerfile): Adds the jar file containing the [protocol mapper](protocol-mapper/src/main/java/de/b1_systems/CustomEmailDomainMapper.java), created
    by the [protocol-mapper project](protocol-mapper), to the keycloak instance.
 
 ## Try it out
@@ -28,13 +36,13 @@ To try it out do the following things:
    that the volumes and so on are destroyed. Otherwise the old keycloak in memory
    database might be reused or you might not see your changed data.
 2. Start build and start keycloak using docker: `docker-compose up --build`.
-3. After the keycloak has been started, the [main class `DataSetupMain`](data-setup/src/main/java/hamburg/schwartau/datasetup/bootstrap/DataSetupMain.java) in
+3. After the keycloak has been started, the [main class `DataSetupMain`](data-setup/src/main/java/de/b1_systems/datasetup/bootstrap/DataSetupMain.java) in
    our [data-setup](data-setup) module should be started automatically by the `docker-entrypoint.sh` in the Dockerfile and should add some example data to the
    keycloak instance. You should see the message `The data has been imported` in the console if it has been executed successfully.
 3. Now you can open the [Keycloak admin console](http://localhost:11080/auth/admin/) and login with username / password: admin / password.
    This initial password for the admin user were configured in our [docker-compose](docker-compose.yml) file.
 4. You should see that the master and an example realm, which was added by the [data-setup](data-setup) module automatically, exists currently. For this example
-   realm the [hello world mapper](protocol-mapper/src/main/java/hamburg/schwartau/HelloWorldMapper.java) is
+   realm the [hello world mapper](protocol-mapper/src/main/java/de/b1_systems/CustomEmailDomainMapper.java) is
    configured (in [clients=>example-realm-client=>Client scopes=>dedicated](http://localhost:11080/auth/admin/master/console/#/example-realm/clients/example-realm-client/clientScopes/dedicated)): ![Keycloak screenshot](images/keycloak_mapper.png?raw=true "Keycloak screenshot")
 
 Now [Keycloak](https://www.keycloak.org/) is configured. As a next step we want to check the token.
@@ -47,7 +55,7 @@ this [page](https://auth0.com/docs/api-auth/which-oauth-flow-to-use)) execute th
     curl -d 'client_id=example-realm-client' -d 'username=jdoe' -d 'password=password' -d 'grant_type=password' 'http://localhost:11080/auth/realms/example-realm/protocol/openid-connect/token'
 
 Note that using the direct flow is only possible because we configured keycloak to allow it in
-the [`RealmSetup` class](data-setup/src/main/java/hamburg/schwartau/datasetup/bootstrap/RealmSetup.java).
+the [`RealmSetup` class](data-setup/src/main/java/de/b1_systems/datasetup/bootstrap/RealmSetup.java).
 Response should be like:
 
     {
@@ -99,13 +107,11 @@ get something like the following:
          "preferred_username": "jdoe",
          "given_name": "John",
          "family_name": "Doe",
-         "example": {
-            "message": "hello world"
-         }
+         "email": "jdoe@example.com"
       }
 
-The value auf our own [Hello World Token mapper](protocol-mapper/src/main/java/hamburg/schwartau/HelloWorldMapper.java) got added to the token because
-the message 'hello world' appears in the example.message field.
+The value auf our own [Custom Email Domain Mapper](protocol-mapper/src/main/java/de/b1_systems/CustomEmailDomainMapper.java) got added to the token because
+into the email field (you can choose the filed freely).
 
 ## Acknowledgements
 

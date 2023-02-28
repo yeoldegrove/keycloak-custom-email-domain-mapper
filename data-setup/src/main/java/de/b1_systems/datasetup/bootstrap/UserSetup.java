@@ -1,4 +1,4 @@
-package hamburg.schwartau.datasetup.bootstrap;
+package de.b1_systems.datasetup.bootstrap;
 
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.resource.UsersResource;
@@ -19,15 +19,16 @@ public class UserSetup {
     }
 
     public void execute() {
-        createUser("mmustermann", "Max", "Mustermann");
-        createUser("jdoe", "John", "Doe");
+        createUser("mmustermann", "Max", "Mustermann", "mmustermann@example.com");
+        createUser("jdoe", "John", "Doe", "jdoe@example.com");
     }
 
-    public String createUser(String name, String firstName, String lastName) {
+    public String createUser(String name, String firstName, String lastName, String email) {
         UserRepresentation user = new UserRepresentation();
         user.setUsername(name);
         user.setFirstName(firstName);
         user.setLastName(lastName);
+        user.setEmail(email);
         user.setEnabled(true);
         user.setCredentials(Arrays.asList(createPassword(PASSWORD)));
         Response response = users.create(user);

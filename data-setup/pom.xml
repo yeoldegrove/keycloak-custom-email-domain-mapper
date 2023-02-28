@@ -1,8 +1,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <parent>
-        <groupId>hamburg.schwartau</groupId>
-        <artifactId>keycloak-custom-protocol-mapper-example-parent</artifactId>
+        <groupId>de.b1_systems</groupId>
+        <artifactId>keycloak-custom-email-domain-mapper-parent</artifactId>
         <version>0.0.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
@@ -11,7 +11,7 @@
     <description/>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>keycloak-custom-protocol-mapper-example-data-setup</artifactId>
+    <artifactId>keycloak-custom-email-domain-mapper-data-setup</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
@@ -46,8 +46,8 @@
             <artifactId>picocli</artifactId>
         </dependency>
         <dependency>
-            <groupId>hamburg.schwartau</groupId>
-            <artifactId>keycloak-custom-protocol-mapper-example</artifactId>
+            <groupId>de.b1_systems</groupId>
+            <artifactId>keycloak-custom-email-domain-mapper</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
@@ -71,7 +71,7 @@
                 <configuration>
                     <transformers>
                         <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                            <mainClass>hamburg.schwartau.datasetup.bootstrap.DataSetupMain</mainClass>
+                            <mainClass>de.b1_systems.datasetup.bootstrap.DataSetupMain</mainClass>
                         </transformer>
                         <transformer
                                 implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>

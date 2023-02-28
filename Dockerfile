@@ -1,4 +1,4 @@
-ARG KEYCLOAK_IMAGE="quay.io/keycloak/keycloak:20.0.2"
+ARG KEYCLOAK_IMAGE="quay.io/keycloak/keycloak:21.0"
 
 # Build protocoll mapper so that it always has the current version
 FROM maven:3.8 as jdk-builder
@@ -11,7 +11,7 @@ RUN mvn clean package
 # Build keycloak
 FROM ${KEYCLOAK_IMAGE} as keycloak-builder
 
-COPY --from=jdk-builder /workspace/protocol-mapper/target/keycloak-custom-protocol-mapper-example.jar /opt/keycloak/providers/
+COPY --from=jdk-builder /workspace/protocol-mapper/target/keycloak-custom-email-domain-mapper.jar /opt/keycloak/providers/
 
 RUN /opt/keycloak/bin/kc.sh build
 
@@ -28,9 +28,6 @@ COPY --from=jdk-builder /workspace/data-setup/target/data-setup.jar /opt/keycloa
 COPY ./data-setup/src/main/bash/populate-data.sh /opt/keycloak
 
 USER root
-
-# hostname is needed for the testdata population script to work, because we need it to figure out the rest api url
-RUN microdnf update -y && microdnf install hostname -y
 
 RUN mkdir -p /app
 

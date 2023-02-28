@@ -1,4 +1,4 @@
-package hamburg.schwartau;
+package de.b1_systems;
 
 import org.junit.jupiter.api.Test;
 import org.keycloak.models.ProtocolMapperModel;
@@ -18,34 +18,34 @@ import java.util.stream.Collectors;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
-public class HelloWorldMapperTest {
+public class CustomEmailDomainMapperTest {
 
     static final String CLAIM_NAME = "haandlerIdClaimNameExample";
 
     @Test
     public void shouldTokenMapperDisplayCategory() {
         final String tokenMapperDisplayCategory = new FullNameMapper().getDisplayCategory();
-        assertThat(new HelloWorldMapper().getDisplayCategory()).isEqualTo(tokenMapperDisplayCategory);
+        assertThat(new CustomEmailDomainMapper().getDisplayCategory()).isEqualTo(tokenMapperDisplayCategory);
     }
 
     @Test
     public void shouldHaveDisplayType() {
-        assertThat(new HelloWorldMapper().getDisplayType()).isNotBlank();
+        assertThat(new CustomEmailDomainMapper().getDisplayType()).isNotBlank();
     }
 
     @Test
     public void shouldHaveHelpText() {
-        assertThat(new HelloWorldMapper().getHelpText()).isNotBlank();
+        assertThat(new CustomEmailDomainMapper().getHelpText()).isNotBlank();
     }
 
     @Test
     public void shouldHaveIdId() {
-        assertThat(new HelloWorldMapper().getId()).isNotBlank();
+        assertThat(new CustomEmailDomainMapper().getId()).isNotBlank();
     }
 
     @Test
     public void shouldHaveProperties() {
-        final List<String> configPropertyNames = new HelloWorldMapper().getConfigProperties().stream()
+        final List<String> configPropertyNames = new CustomEmailDomainMapper().getConfigProperties().stream()
                 .map(ProviderConfigProperty::getName)
                 .collect(Collectors.toList());
         assertThat(configPropertyNames).containsExactly(OIDCAttributeMapperHelper.TOKEN_CLAIM_NAME, OIDCAttributeMapperHelper.INCLUDE_IN_ID_TOKEN, OIDCAttributeMapperHelper.INCLUDE_IN_ACCESS_TOKEN, OIDCAttributeMapperHelper.INCLUDE_IN_USERINFO);
@@ -71,7 +71,7 @@ public class HelloWorldMapperTest {
     private AccessToken transformAccessToken(UserSessionModel userSessionModel) {
         final ProtocolMapperModel mappingModel = new ProtocolMapperModel();
         mappingModel.setConfig(createConfig());
-        return new HelloWorldMapper().transformAccessToken(new AccessToken(), mappingModel, null, userSessionModel, null);
+        return new CustomEmailDomainMapper().transformAccessToken(new AccessToken(), mappingModel, null, userSessionModel, null);
     }
 
     private Map<String, String> createConfig() {

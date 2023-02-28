@@ -1,6 +1,5 @@
-package hamburg.schwartau.datasetup.bootstrap;
-
-import hamburg.schwartau.HelloWorldMapper;
+package de.b1_systems.datasetup.bootstrap;
+import de.b1_systems.CustomEmailDomainMapper;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.resource.ClientResource;
 import org.keycloak.protocol.oidc.mappers.GroupMembershipMapper;
@@ -22,7 +21,7 @@ public class ClientMapperSetup {
     public void execute() {
         final ClientResource client = this.keycloak.realm(RealmSetup.REALM).clients().get(RealmSetup.CLIENT);
         client.getProtocolMappers().createMapper(createGroupMapper());
-        client.getProtocolMappers().createMapper(createHelloWordMapper());
+        client.getProtocolMappers().createMapper(createCustomEmailDomainMapper());
     }
 
     private ProtocolMapperRepresentation createGroupMapper() {
@@ -39,14 +38,14 @@ public class ClientMapperSetup {
         return protocolMapperRepresentation;
     }
 
-    private ProtocolMapperRepresentation createHelloWordMapper() {
+    private ProtocolMapperRepresentation createCustomEmailDomainMapper() {
         ProtocolMapperRepresentation protocolMapperRepresentation = new ProtocolMapperRepresentation();
-        protocolMapperRepresentation.setProtocolMapper(HelloWorldMapper.PROVIDER_ID);
+        protocolMapperRepresentation.setProtocolMapper(CustomEmailDomainMapper.PROVIDER_ID);
         protocolMapperRepresentation.setProtocol(PROTOCOL);
-        protocolMapperRepresentation.setName("Hello world mapper");
+        protocolMapperRepresentation.setName("Custom Email Domain Mapper");
         Map<String, String> config = new HashMap<>();
         putAccessTokenClaim(config);
-        config.put(OIDCAttributeMapperHelper.TOKEN_CLAIM_NAME, "example.message");
+        config.put(OIDCAttributeMapperHelper.TOKEN_CLAIM_NAME, "email");
         protocolMapperRepresentation.setConfig(config);
         return protocolMapperRepresentation;
     }

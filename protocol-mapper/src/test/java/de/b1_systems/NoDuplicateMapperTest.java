@@ -1,4 +1,4 @@
-package hamburg.schwartau;
+package de.b1_systems;
 
 import org.junit.jupiter.api.Test;
 import org.keycloak.protocol.ProtocolMapper;
