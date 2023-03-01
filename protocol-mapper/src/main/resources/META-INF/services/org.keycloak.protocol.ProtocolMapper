@@ -1,4 +1,5 @@
 # the name of this file should not be changed, this is how the Service provider API works.
 #
 # List here all protocol mappers which should be loaded by keycloak.
-de.b1_systems.CustomEmailDomainMapper
+de.b1_systems.OIDCCustomEmailDomainMapper
+de.b1_systems.SAMLCustomEmailDomainMapper

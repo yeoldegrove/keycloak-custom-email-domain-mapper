@@ -29,7 +29,8 @@ public class DataSetupMain implements Callable<Integer> {
             .executeTestdataPopulationOnlyOnce(keycloakClient -> {
                 new RealmSetup(keycloakClient).execute();
                 new UserSetup(keycloakClient).execute();
-                new ClientMapperSetup(keycloakClient).execute();
+                new OIDCClientMapperSetup(keycloakClient).execute();
+                new SAMLClientMapperSetup(keycloakClient).execute();
             });
         return 0;
     }

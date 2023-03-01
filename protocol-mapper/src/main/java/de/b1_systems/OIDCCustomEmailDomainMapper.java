@@ -1,5 +1,6 @@
 // purpose: A keycloak OIDC protocol mapper that
 // returns an email address whose domain part is replaced with a custom domain.
+// You can choose the OIDC Token Claim Name.
 // copyright: B1 Systems GmbH <info@b1-systems.de>, 2023.
 // license: Apacje License, Version 2.0, https://www.apache.org/licenses/LICENSE-2.0
 // author: Eike Waldt <waldt@b1-systems.de>, 2023.
@@ -29,12 +30,11 @@ import java.util.List;
 /*
  * Our own example protocol mapper.
  */
-public class CustomEmailDomainMapper extends AbstractOIDCProtocolMapper implements OIDCAccessTokenMapper, OIDCIDTokenMapper, UserInfoTokenMapper {
+public class OIDCCustomEmailDomainMapper extends AbstractOIDCProtocolMapper implements OIDCAccessTokenMapper, OIDCIDTokenMapper, UserInfoTokenMapper {
 
     /*
      * A config which keycloak uses to display a generic dialog to configure the token.
      */
-    //private static final List<ProviderConfigProperty> configProperties = new ArrayList<>();
     private static final List<ProviderConfigProperty> configProperties;
 
     /*
@@ -68,7 +68,7 @@ public class CustomEmailDomainMapper extends AbstractOIDCProtocolMapper implemen
         // this token mapper implements to decide which options to add to the config. So if this token
         // mapper should never be available for some sort of options, e.g. like the id token, just don't
         // implement the corresponding interface.
-        OIDCAttributeMapperHelper.addIncludeInTokensConfig(configProperties, CustomEmailDomainMapper.class);
+        OIDCAttributeMapperHelper.addIncludeInTokensConfig(configProperties, OIDCCustomEmailDomainMapper.class);
     }
 
     @Override

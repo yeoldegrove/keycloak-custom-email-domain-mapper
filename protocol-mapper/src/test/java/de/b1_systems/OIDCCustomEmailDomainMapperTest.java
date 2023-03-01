@@ -18,34 +18,34 @@ import java.util.stream.Collectors;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
-public class CustomEmailDomainMapperTest {
+public class OIDCCustomEmailDomainMapperTest {
 
     static final String CLAIM_NAME = "haandlerIdClaimNameExample";
 
     @Test
     public void shouldTokenMapperDisplayCategory() {
         final String tokenMapperDisplayCategory = new FullNameMapper().getDisplayCategory();
-        assertThat(new CustomEmailDomainMapper().getDisplayCategory()).isEqualTo(tokenMapperDisplayCategory);
+        assertThat(new OIDCCustomEmailDomainMapper().getDisplayCategory()).isEqualTo(tokenMapperDisplayCategory);
     }
 
     @Test
     public void shouldHaveDisplayType() {
-        assertThat(new CustomEmailDomainMapper().getDisplayType()).isNotBlank();
+        assertThat(new OIDCCustomEmailDomainMapper().getDisplayType()).isNotBlank();
     }
 
     @Test
     public void shouldHaveHelpText() {
-        assertThat(new CustomEmailDomainMapper().getHelpText()).isNotBlank();
+        assertThat(new OIDCCustomEmailDomainMapper().getHelpText()).isNotBlank();
     }
 
     @Test
     public void shouldHaveIdId() {
-        assertThat(new CustomEmailDomainMapper().getId()).isNotBlank();
+        assertThat(new OIDCCustomEmailDomainMapper().getId()).isNotBlank();
     }
 
     @Test
     public void shouldHaveProperties() {
-        final List<String> configPropertyNames = new CustomEmailDomainMapper().getConfigProperties().stream()
+        final List<String> configPropertyNames = new OIDCCustomEmailDomainMapper().getConfigProperties().stream()
                 .map(ProviderConfigProperty::getName)
                 .collect(Collectors.toList());
         assertThat(configPropertyNames).containsExactly(OIDCAttributeMapperHelper.TOKEN_CLAIM_NAME, OIDCAttributeMapperHelper.INCLUDE_IN_ID_TOKEN, OIDCAttributeMapperHelper.INCLUDE_IN_ACCESS_TOKEN, OIDCAttributeMapperHelper.INCLUDE_IN_USERINFO);
@@ -71,7 +71,7 @@ public class CustomEmailDomainMapperTest {
     private AccessToken transformAccessToken(UserSessionModel userSessionModel) {
         final ProtocolMapperModel mappingModel = new ProtocolMapperModel();
         mappingModel.setConfig(createConfig());
-        return new CustomEmailDomainMapper().transformAccessToken(new AccessToken(), mappingModel, null, userSessionModel, null);
+        return new OIDCCustomEmailDomainMapper().transformAccessToken(new AccessToken(), mappingModel, null, userSessionModel, null);
     }
 
     private Map<String, String> createConfig() {
