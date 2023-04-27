@@ -1,10 +1,17 @@
-# forked from https://github.com/mschwartau/keycloak-custom-protocol-mapper-example
+# Keycloak OIDC and SAML protocol mappers to replace `email` user attribute
 
-A keycloak OIDC protocol mapper that returns an email address whose domain part is replaced with a custom domain.
+This is forked from the great example in [mschwartau/keycloak-custom-protocol-mapper-example](https://github.com/mschwartau/keycloak-custom-protocol-mapper-example).
+
+Keycloak OIDC and SAML protocol mappers that return an email address whose domain part is replaced with a custom domain.
 
 You can e.g. use it to overwrite the `email` claim from `example.de` to `example.com`.
 
 To use it, install it to your keycloak image (see `Dockerfile`) and add a new `Custom Email Domain Mapper` to your keycloak client.
+
+## TODO
+
+* write missing test cases
+* fix data-setup
 
 # Keycloak custom protocol mapper example / customize JWT tokens
 
